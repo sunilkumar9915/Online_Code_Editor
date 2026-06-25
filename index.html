@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            background: yellow;
+        }
+        .leftPart {
+            flex-basis: 50%;
+            display: flex;
+            flex-direction: column;
+             background: rgb(134, 9, 86);
+        
+        }
+        .content {
+            flex-basis: 33%;
+            display: flex;
+            flex-direction: column;
+        }
+        .content label {
+            background: black;
+            color: white;
+            padding: 10px;
+        }
+        .content textarea {
+            width: calc(100% - 20px);
+            height: calc(100% - 50px);
+            background: black;
+            color: white;
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+        .rightPart {
+            flex-basis: 50%;
+            background: rgb(17, 173, 127);
+            height: 100%;
+        }
+        .rightPart label {
+            display: block;
+            padding: 10px;
+            background: rgb(79, 16, 197);
+            color: white;
+        }
+        .rightPart iframe {
+            width: 100%;
+            height: calc(100% - 45px);
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="leftPart">
+        <div class="content">
+            <label>HTML</label>
+            <textarea id="html"></textarea>
+        </div>
+        <div class="content">
+            <label>CSS</label>
+            <textarea id="css"></textarea>
+        </div>
+        <div class="content">
+            <label>JavaScript</label>
+            <textarea id="js"></textarea>
+        </div>
+    </div>
+
+    <div class="rightPart">
+        <label>Output</label>
+        <iframe id="Output"></iframe>
+    </div>
+
+<script>
+    let Output = document.getElementById("Output");
+    let allInput = document.querySelectorAll(".leftPart textarea");
+
+    let htmlCode = "", cssCode = "", jsCode = "";
+
+    allInput.forEach((el, index) => {
+        el.addEventListener("keyup", () => {
+
+            if (index === 0) htmlCode = el.value;
+            if (index === 1) cssCode = el.value;
+            if (index === 2) jsCode = el.value;
+
+            let outputDoc = Output.contentDocument;
+            outputDoc.open();
+            outputDoc.write(`
+                <style>${cssCode}</style>
+                ${htmlCode}
+                <script>${jsCode}<\/script>
+            `);
+            outputDoc.close();
+        });
+    });
+</script>
+
+</body>
+</html>
